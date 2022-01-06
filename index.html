@@ -1,0 +1,99 @@
+
+<html>
+
+    <head>
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+        <script language="JavaScript" type="text/javascript" src="jsbn.js"></script>
+        <script language="JavaScript" type="text/javascript" src="random.js"></script>
+        <script language="JavaScript" type="text/javascript" src="hash.js"></script>
+        <script language="JavaScript" type="text/javascript" src="rsa.js"></script>
+        <script language="JavaScript" type="text/javascript" src="aes.js"></script>
+        <script language="JavaScript" type="text/javascript" src="api.js"></script>
+
+        <script>
+            window.onload = function() {
+                window.onEncryptText = function (text) {
+                    document.getElementById("encout").value = cryptico.encrypt(text, window.pubkey).cipher;
+                }
+
+                window.onDecryptText = function(text) {
+                    document.getElementById("decout").value = cryptico.decrypt(text, window.privkey).plaintext;
+                }
+
+                window.generateKey = function(pass) {
+                    console.log("Generating new key")
+                    if (pass === undefined) pass = crypto.randomUUID()
+                    window.privkeypass = pass
+                    window.privkey = cryptico.generateRSAKey(pass, 512);
+                    window.pubkey = cryptico.publicKeyString(window.privkey);
+                    document.getElementById("pubkey").value = window.pubkey;
+
+                    document.getElementById("encin").value = ""
+                    document.getElementById("encout").value = ""
+                    document.getElementById("decin").value = ""
+                    document.getElementById("decout").value = "" 
+                }
+
+                window.setPubKey = function(text) {
+                    window.pubkey = text;
+                    document.getElementById("encin").value = ""
+                    document.getElementById("encout").value = ""
+                }
+            } 
+        </script>
+
+    </head>
+    
+    <body>
+        <div>
+            <h1>Encryption key</h1>
+            <input size="100" autocomplete="off" oninput="setPubKey(this.value)" id="pubkey"></input>
+            <button onclick="generateKey()">Generate</button>
+            <h1>Input text to encrypt</h1>
+            <textarea id="encin" spellcheck="false" autocomplete="off" rows="4" cols="100" oninput="onEncryptText(this.value)" placeholder="Enter text to encrypt"></textarea>
+            <h1>Ouput encrypted text</h1>
+            <textarea autocomplete="off" rows="4" cols="100" id="encout" readonly></textarea>
+        </div>
+        <br /><br /><br />
+        <div>
+            <h1>Input text to decrypt</h1>
+            <textarea id="decin" spellcheck="false" autocomplete="off" rows="4" cols="100" oninput="onDecryptText(this.value)" placeholder="Enter text to decrypt"></textarea>
+            <h1>Output decrypted text</h1>
+            <textarea autocomplete="off" rows="4" cols="100" id="decout" readonly></textarea>
+        </div>
+    </body>
+    
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
